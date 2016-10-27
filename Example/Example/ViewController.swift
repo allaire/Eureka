@@ -304,7 +304,22 @@ class RowsExampleViewController: FormViewController {
                 <<< IntRow() {
                         $0.title = "IntRow"
                         $0.value = 2015
-                    }
+                    
+                        $0.displayValueFor = { (value: Int?) in
+                            if let value = value {
+                                return "\(value) before j.c"
+                            } else {
+                                return nil
+                            }
+                        }
+                    }.onCellHighlightChanged({ (cell, row) in
+                        if !row.isHighlighted {
+//                            row.updateCell()
+                            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                row.updateCell()
+                            }
+                        }
+                    })
         
                 <<< EmailRow() {
                         $0.title = "EmailRow"
